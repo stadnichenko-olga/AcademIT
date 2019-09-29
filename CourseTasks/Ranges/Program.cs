@@ -15,13 +15,14 @@ namespace Ranges
 
             public void Arrange()
             {
-                this.From = Math.Min(this.From, this.To);
+                double left = Math.Min(this.From, this.To);
                 this.To = Math.Max(this.From, this.To);
+                this.From = left;
             }
 
             public bool IsInside(double numberToCheck)
             {
-                if ((numberToCheck >= Math.Min(this.From, this.To)) && (numberToCheck <= Math.Min(this.From, this.To)))
+                if ((numberToCheck >= Math.Min(this.From, this.To)) && (numberToCheck <= Math.Max(this.From, this.To)))
                 {
                     return true;
                 }
@@ -36,7 +37,8 @@ namespace Ranges
         static void Main()
         {
             bool doMore = true;
-            Range range = new Range(); ;
+            Range range = new Range();
+
             while (doMore)
             {
                 Console.WriteLine("Add new left boundary");
@@ -58,10 +60,10 @@ namespace Ranges
                 range.To = rightBoundary;
 
                 range.Arrange();
-                Console.WriteLine($"The boundaries were arranged, left one is ", range.From, ", right one is", range.To);
-                Console.WriteLine($"The length is equal to", range.Length());
+                Console.WriteLine($"The boundaries were arranged, left one is {range.From}, right one is {range.To}");
+                Console.WriteLine($"The length is equal to {range.Length()}");
 
-                Console.WriteLine("What number do you want To check?");
+                Console.WriteLine("What number do you want to check?");
                 if (!double.TryParse(Console.ReadLine(), out double number))
                 {
                     Console.WriteLine("Error: not a number");
@@ -86,8 +88,6 @@ namespace Ranges
                     doMore = false;
                 }
             }
-
-            Console.ReadKey();
         }
     }
 }
